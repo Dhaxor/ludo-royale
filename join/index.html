@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Join my Ludo Royale room</title>
+    <meta name="description" content="You're invited to a game of Ludo Royale — real 3D Ludo. Open the app to join the room." />
+    <meta property="og:title" content="Join my Ludo Royale room" />
+    <meta property="og:description" content="Real 3D Ludo with friends. Tap to join the room." />
+    <meta property="og:image" content="https://dhaxor.github.io/ludo-royale/icon.png" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="icon" href="../icon.png" />
+    <style>
+      .code { font-size: 44px; font-weight: 900; letter-spacing: 10px; color: var(--gold); margin: 8px 0 4px; }
+      .btn { display: block; text-align: center; padding: 16px; border-radius: 18px; font-weight: 800; font-size: 19px; text-decoration: none; margin: 12px 0; }
+      .btn.gold { background: linear-gradient(180deg, #ffe58a, #e39a00); color: #1c1300; box-shadow: 0 6px 0 #a86400; }
+      .btn.glass { background: rgba(255, 255, 255, 0.12); color: #fff; border: 1px solid var(--stroke); }
+      .hero { text-align: center; }
+      .hero img { width: 96px; height: 96px; border-radius: 24px; }
+      .small { font-size: 15px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="hero">
+        <img src="../icon.png" alt="Ludo Royale app icon" />
+        <h1 id="title">You're invited to play Ludo Royale</h1>
+        <p id="sub">Real 3D Ludo with friends.</p>
+        <div class="code" id="code" hidden></div>
+      </div>
+      <a class="btn gold" id="open" href="ludoroyale://join">Open Ludo Royale</a>
+      <a class="btn glass" href="https://apps.apple.com/app/id6823802671">Get it free on the App Store</a>
+      <div class="card">
+        <p class="small" id="manual">Already have the app? Open it, tap <strong>Friends</strong> → <strong>Join</strong>, and enter the room code.</p>
+      </div>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../support.html">Support</a>
+        <a href="../privacy.html">Privacy Policy</a>
+      </nav>
+    </main>
+    <script>
+      (function () {
+        var q = new URLSearchParams(location.search);
+        var code = (q.get("c") || "").toUpperCase();
+        var ref = (q.get("r") || "").toUpperCase();
+        var friend = (q.get("f") || "").toUpperCase();
+        var valid = /^[A-HJ-NP-Z2-9]{4}$/.test(code);
+        var refOk = /^[A-Z0-9]{4,12}$/.test(ref);
+        var open = document.getElementById("open");
+        if (valid) {
+          document.getElementById("code").textContent = code;
+          document.getElementById("code").hidden = false;
+          document.getElementById("title").textContent = "Join my Ludo Royale room";
+          document.getElementById("sub").textContent = "Room code";
+          document.getElementById("manual").innerHTML = "Already have the app? Open it, tap <strong>Friends</strong> → <strong>Join</strong>, and enter <strong>" + code + "</strong>.";
+          open.href = "ludoroyale://join/" + code + (refOk ? "?r=" + ref : "");
+        } else if (/^[A-Z0-9]{4,12}$/.test(friend)) {
+          document.getElementById("title").textContent = "Add me on Ludo Royale";
+          open.href = "ludoroyale://join?f=" + friend;
+        } else if (refOk) {
+          open.href = "ludoroyale://join?r=" + ref;
+        }
+      })();
+    </script>
+  </body>
+</html>
